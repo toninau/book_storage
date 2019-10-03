@@ -1,8 +1,18 @@
 const connection = require('../connection');
 
+const sqlSELECT = 'SELECT books.BookID, booksinfo.Title, ' +
+  'booksinfo.PublicationYear, booksinfo.Author, booksinfo.ISBN, ' +
+  'group_concat(genres.Name), storages.Location, storages.Name ' +
+  'FROM books ' +
+  'INNER JOIN storages on storages.StorageID = books.StorageID ' +
+  'INNER JOIN booksinfo on booksinfo.BookinfoID = books.BookinfoID ' +
+  'INNER JOIN booksgenres on booksgenres.BookinfoID = books.BookinfoID ' +
+  'INNER JOIN genres on genres.GenreID = booksgenres.GenreID ';
+const sqlGROUP = 'GROUP BY books.BookID ';
+
 exports.book_id = function(req, res) {
   const id = req.params.id;
-  const sql = 'SELECT * FROM books WHERE BookID = ?';
+  const sql = `${sqlSELECT} WHERE books.BookID = ? ${sqlGROUP}`;
   connection.query(sql, [id], (err, result) => {
     if (err) throw err;
     if (result.length === 0) {
@@ -15,16 +25,16 @@ exports.book_id = function(req, res) {
 
 exports.book_advanced = function(req, res) {
   // URL query empty -> get all books
-  const sqlparams = [];
+  const sqlParams = [];
+  let sql = sqlSELECT;
   if (Object.keys(req.query).length === 0) {
-    const sql = 'SELECT * FROM books';
-    connection.query(sql, (err, result) => {
+    connection.query(sql + sqlGROUP, (err, result) => {
       if (err) throw err;
       res.send(result);
     });
   } else {
-    // Create needed query based on keys
-    let sql = 'SELECT * FROM books WHERE 1=1 ';
+    // Create needed SQL query based on req query
+    sql += 'WHERE 1=1 ';
     for (const key in req.query) {
       if (req.query.hasOwnProperty(key)) {
         switch (key) {
@@ -40,12 +50,10 @@ exports.book_advanced = function(req, res) {
           case 'yearMin':
             sql += 'AND PublicationYear >= ? ';
         }
-        sqlparams.push(req.query[key]);
+        sqlParams.push(req.query[key]);
       }
     }
-    console.log(sqlparams);
-    console.log(sql);
-    connection.query(sql, sqlparams, (err, result) => {
+    connection.query(sql + sqlGROUP, sqlParams, (err, result) => {
       if (err) throw err;
       if (result.length === 0) {
         res.status(404).send({'result': 'Not found'});
