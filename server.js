@@ -13,5 +13,5 @@ app.use('/api/v1', apiRouterV1);
 app.use('/', indexRouter);
 
 app.listen(8081, () => {
-  console.log('Server started');
+  console.log('Server started, port 8081');
 });

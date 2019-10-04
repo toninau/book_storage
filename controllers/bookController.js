@@ -2,8 +2,8 @@ const connection = require('../connection');
 
 const sqlSELECT = 'SELECT books.BookID, booksinfo.Title, ' +
   'booksinfo.PublicationYear, booksinfo.Author, booksinfo.ISBN, ' +
-  `group_concat(genres.Name) AS 'Genres', storages.Location, storages.Storage `+
-  'FROM books ' +
+  `group_concat(genres.Name) AS 'Genres', storages.Location, storages.Storage` +
+  ' FROM books ' +
   'INNER JOIN storages on storages.StorageID = books.StorageID ' +
   'INNER JOIN booksinfo on booksinfo.BookinfoID = books.BookinfoID ' +
   'INNER JOIN booksgenres on booksgenres.BookinfoID = books.BookinfoID ' +
@@ -39,17 +39,21 @@ exports.book_advanced_get = function(req, res) {
     for (const key in req.query) {
       if (req.query.hasOwnProperty(key)) {
         switch (key) {
+          case 'author':
           case 'title':
-            sql += `AND Title LIKE CONCAT('%', ?, '%') `;
+            sql += `AND ${key} LIKE CONCAT('%', ?, '%') `;
             break;
           case 'storageID':
-            sql += 'AND StorageID = ? ';
+            sql += 'AND books.StorageID = ? ';
             break;
           case 'yearMax':
             sql += 'AND PublicationYear <= ? ';
             break;
           case 'yearMin':
             sql += 'AND PublicationYear >= ? ';
+            break;
+          case 'isbn':
+            sql += 'AND ISBN = ?';
             break;
           default:
             success = false;
@@ -74,7 +78,41 @@ exports.book_advanced_get = function(req, res) {
 };
 
 exports.book_create_post = function(req, res) {
-  res.send('NOT IMPLEMENTED');
+  const sqlSELECT = 'SELECT * FROM booksinfo WHERE ISBN = ?';
+  const sqlbookinfoINSERT = 'INSERT INTO booksinfo ' +
+    '(Title, PublicationYear, Author, ISBN) VALUES (?, ?, ?, ?)';
+  const sqlbookINSERT = 'INSERT INTO books (BookinfoID, StorageID) ' +
+    'VALUES (?,?)';
+  const sqlbooksgenresINSERT = 'INSERT INTO booksgenres ' +
+    '(GenreID, BookinfoID) VALUES (?, ?)';
+  let id = -1;
+
+  connection.query(sqlSELECT, [req.body.ISBN], (err, result) => {
+    if (err) throw err;
+    try {
+      id = result[0].BookinfoID;
+    } catch (err) {
+    }
+    if (id === -1) {
+      connection.query(sqlbookinfoINSERT, [req.body.Title,
+        req.body.PublicationYear, req.body.Author,
+        req.body.ISBN], (err, result) => {
+        if (err) throw err;
+        id = result.insertId;
+        connection.query(`${sqlbookINSERT};${sqlbooksgenresINSERT}`,
+            [id, req.body.StorageID, req.body.GenreID, id], (err, result) => {
+              if (err) throw err;
+              res.send(result);
+            });
+      });
+    } else {
+      connection.query(sqlbookINSERT, [id, req.body.StorageID],
+          (err, result) => {
+            if (err) throw err;
+            res.send(result);
+          });
+    }
+  });
 };
 
 exports.book_update_put = function(req, res) {
