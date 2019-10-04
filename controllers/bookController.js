@@ -10,6 +10,7 @@ const sqlSELECT = 'SELECT books.BookID, booksinfo.Title, ' +
   'INNER JOIN genres on genres.GenreID = booksgenres.GenreID ';
 const sqlGROUP = 'GROUP BY books.BookID ';
 
+// WORKS :)
 exports.book_id_get = function(req, res) {
   const id = req.params.id;
   const sql = `${sqlSELECT} WHERE books.BookID = ? ${sqlGROUP}`;
@@ -23,6 +24,7 @@ exports.book_id_get = function(req, res) {
   });
 };
 
+// WORKS :)
 exports.book_advanced_get = function(req, res) {
   // URL query empty -> get all books
   const sqlParams = [];
@@ -77,6 +79,7 @@ exports.book_advanced_get = function(req, res) {
   }
 };
 
+// WORKS :|
 exports.book_create_post = function(req, res) {
   const sqlSELECT = 'SELECT * FROM booksinfo WHERE ISBN = ?';
   const sqlbookinfoINSERT = 'INSERT INTO booksinfo ' +
@@ -115,10 +118,31 @@ exports.book_create_post = function(req, res) {
   });
 };
 
+// WORKS :|
 exports.book_update_put = function(req, res) {
-  res.send('NOT IMPLEMENTED');
+  const sql = 'UPDATE booksinfo SET Title = ?, PublicationYear = ?, ' +
+    'Author = ?, ISBN = ? WHERE BookinfoID = ?';
+  connection.query(sql, [req.body.Title,
+    req.body.PublicationYear, req.body.Author,
+    req.body.ISBN, req.params.id], (err, result) => {
+    if (err) throw err;
+    if (result.length === 0) {
+      res.status(404).send({'id': id, 'result': 'Not found'});
+    } else {
+      res.send(result);
+    }
+  });
 };
 
+// WORKS :)
 exports.book_delete = function(req, res) {
-  res.send('NOT IMPLEMENTED');
+  const sql = 'DELETE FROM books WHERE bookID = ?';
+  connection.query(sql, [req.params.id], (err, result) => {
+    if (err) throw err;
+    if (result.length === 0) {
+      res.status(404).send({'id': id, 'result': 'Not found'});
+    } else {
+      res.send(result);
+    }
+  });
 };
