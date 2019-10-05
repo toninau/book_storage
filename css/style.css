@@ -1,0 +1,105 @@
+/* All */
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sidebar stuff */
+.sidebar {
+  display: flex;
+  flex-flow: column;
+  width: 350px;
+  background-color: #9172E8;
+  border-right: 2px solid white;
+}
+
+
+.list {
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  background-color: #7D7EFF;
+}
+
+
+.list li {
+  margin: 1em;
+  padding: 2em;
+  border-bottom: 2px solid white;
+  border-radius: 0 30px;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+}
+
+.list li a {
+  color: white;
+  font-weight: bold;
+  margin: auto;
+}
+
+.list li:hover  {
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
+  text-decoration: underline;
+}
+
+.logo {
+  margin: 2em;
+  padding: 1em; 
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px solid white;
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
+  background-color: #9192E8;
+
+}
+
+.logo h1 {
+  padding-left: 1em; 
+  color: white;
+  font-size: 30px;
+  margin: auto;
+}
+
+.resize {
+  width: 100px;
+}
+
+/* Not sidebar stuff */
+.main {
+  width: inherit;
+  height: inherit;
+  background-image: linear-gradient(to right, #C88AFF, #9172E8, #C88AFF);
+  display: flex;
+}
+
+.formlist-container {
+  margin: auto;
+  background-color: white;
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 0 30px;
+  width: 95%;
+  height: 95%;
+  display: flex;
+}
+
+.formlist {
+  border-width: 5px;  
+  border-style: inset;
+  border-radius: 0 30px;
+  width: 95%;
+  height: 95%;
+  margin: auto;
+}
+
+#read-page, #update-page, #delete-page {
+  display: none;
+}
