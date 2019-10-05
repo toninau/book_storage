@@ -55,7 +55,10 @@ exports.book_advanced_get = function(req, res) {
             sql += 'AND PublicationYear >= ? ';
             break;
           case 'isbn':
-            sql += 'AND ISBN = ?';
+            sql += 'AND ISBN = ? ';
+            break;
+          case 'genre':
+            sql += 'AND genres.Name = ? ';
             break;
           default:
             success = false;
@@ -79,7 +82,7 @@ exports.book_advanced_get = function(req, res) {
   }
 };
 
-// WORKS :|
+// WORKS :), ADD VALIDATION
 exports.book_create_post = function(req, res) {
   const sqlSELECT = 'SELECT * FROM booksinfo WHERE ISBN = ?';
   const sqlbookinfoINSERT = 'INSERT INTO booksinfo ' +
@@ -88,37 +91,65 @@ exports.book_create_post = function(req, res) {
     'VALUES (?,?)';
   const sqlbooksgenresINSERT = 'INSERT INTO booksgenres ' +
     '(GenreID, BookinfoID) VALUES (?, ?)';
+  const sqlCheckExists = 'SELECT genres.GenreID, storages.StorageID ' +
+    'FROM books ' +
+    'INNER JOIN storages on storages.StorageID = books.StorageID ' +
+    'INNER JOIN booksinfo on booksinfo.BookinfoID = books.BookinfoID ' +
+    'INNER JOIN booksgenres on booksgenres.BookinfoID = books.BookinfoID ' +
+    'INNER JOIN genres on genres.GenreID = booksgenres.GenreID ' +
+    'GROUP BY genres.GenreID, storages.StorageID';
   let id = -1;
+  let genreIDFound = false;
+  let storageIDFound = false;
 
-  connection.query(sqlSELECT, [req.body.ISBN], (err, result) => {
+  connection.query(sqlCheckExists, (err, result) => {
     if (err) throw err;
-    try {
-      id = result[0].BookinfoID;
-    } catch (err) {
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].GenreID === req.body.GenreID) {
+        genreIDFound = true;
+      }
+      if (result[i].StorageID === req.body.StorageID) {
+        storageIDFound = true;
+      }
+      if (storageIDFound && genreIDFound) {
+        break;
+      }
     }
-    if (id === -1) {
-      connection.query(sqlbookinfoINSERT, [req.body.Title,
-        req.body.PublicationYear, req.body.Author,
-        req.body.ISBN], (err, result) => {
+    if (storageIDFound && genreIDFound) {
+      connection.query(sqlSELECT, [req.body.ISBN], (err, result) => {
         if (err) throw err;
-        id = result.insertId;
-        connection.query(`${sqlbookINSERT};${sqlbooksgenresINSERT}`,
-            [id, req.body.StorageID, req.body.GenreID, id], (err, result) => {
-              if (err) throw err;
-              res.send(result);
-            });
+        try {
+          id = result[0].BookinfoID;
+        } catch (err) {
+        }
+        if (id === -1) {
+          connection.query(sqlbookinfoINSERT, [req.body.Title,
+            req.body.PublicationYear, req.body.Author,
+            req.body.ISBN], (err, result) => {
+            if (err) throw err;
+            id = result.insertId;
+            connection.query(`${sqlbookINSERT};${sqlbooksgenresINSERT}`,
+                [id, req.body.StorageID,
+                  req.body.GenreID, id], (err, result) => {
+                  if (err) throw err;
+                  res.send(result);
+                });
+          });
+        } else {
+          connection.query(sqlbookINSERT, [id, req.body.StorageID],
+              (err, result) => {
+                if (err) throw err;
+                res.send(result);
+              });
+        }
       });
     } else {
-      connection.query(sqlbookINSERT, [id, req.body.StorageID],
-          (err, result) => {
-            if (err) throw err;
-            res.send(result);
-          });
+      res.status(400).send({'result': 'Something is wrong with the body'});
     }
   });
 };
 
-// WORKS :|
+// WORKS :), ADD VALIDATION
 exports.book_update_put = function(req, res) {
   const sql = 'UPDATE booksinfo SET Title = ?, PublicationYear = ?, ' +
     'Author = ?, ISBN = ? WHERE BookinfoID = ?';
