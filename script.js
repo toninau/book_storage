@@ -55,7 +55,7 @@ document.querySelector('#createForm-options>label:nth-child(2)'
 ).onclick = function() {
   dynamicForm1.innerHTML = '';
   dynamicForm1.innerHTML = '<label>Genre name<input type="text"' +
-    'name="title" required></label>' +
+    'name="Name" required></label>' +
     '<button type="submit" class="btn">Submit</button>';
 };
 
@@ -63,8 +63,9 @@ document.querySelector('#createForm-options>label:nth-child(3)'
 ).onclick = function() {
   dynamicForm1.innerHTML = '';
   dynamicForm1.innerHTML = '<label>Storage name<input type="text"' +
-    'name="title" required></label>' +
-    '<label>Storage location<input type="text" name="title" required></label>' +
+    'name="Storage" required></label>' +
+    '<label>Storage location<input type="text"' +
+    'name="Location" required></label>' +
     '<button type="submit" class="btn">Submit</button>';
 };
 
@@ -125,8 +126,6 @@ function processCreateForm(event) {
   xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       alert('SUCCESS');
-    } else {
-      alert('FAIL');
     }
   };
   const data = JSON.stringify(json);
