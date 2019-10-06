@@ -123,6 +123,28 @@ document.querySelector('#updateForm-options>label:nth-child(1)'
   '<button type="submit" class="btn">Submit</button>';
 };
 
+document.querySelector('#updateForm-options>label:nth-child(2)'
+).onclick = function() {
+  dynamicForm3.innerHTML = '';
+  dynamicForm3.innerHTML = '<label>Genre ID<input type="text"' +
+  'name="BookinfoID" id="BookinfoID" pattern="[0-9]*" required></label>' +
+  '<label>Genre name<input type="text"' +
+  'name="Name" required></label>' +
+  '<button type="submit" class="btn">Submit</button>';
+};
+
+document.querySelector('#updateForm-options>label:nth-child(3)'
+).onclick = function() {
+  dynamicForm3.innerHTML = '';
+  dynamicForm3.innerHTML = '<label>Storage ID<input type="text"' +
+  'name="BookinfoID" id="BookinfoID" pattern="[0-9]*" required></label>' +
+  '<label>Storage name<input type="text"' +
+  'name="Storage" required></label>' +
+  '<label>Storage location<input type="text"' +
+  'name="Location" required></label>' +
+  '<button type="submit" class="btn">Submit</button>';
+};
+
 // Delete forms
 document.querySelector('#deleteForm-options>label:nth-child(1)'
 ).onclick = function() {
