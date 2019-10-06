@@ -24,8 +24,8 @@ exports.genre_update_put = function(req, res) {
   const sql = 'UPDATE genres SET Name = ? WHERE GenreID = ?';
   connection.query(sql, [req.body.Name, req.params.id], (err, result) => {
     if (err) throw err;
-    if (result.length === 0) {
-      res.status(404).send({'id': id, 'result': 'Not found'});
+    if (result.length === 0 || result[0].affectedRows == 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
     } else {
       res.send(result);
     }
@@ -33,11 +33,12 @@ exports.genre_update_put = function(req, res) {
 };
 
 exports.genre_delete = function(req, res) {
-  const sql = 'DELETE FROM genres WHERE GenreID = ?';
-  connection.query(sql, [req.params.id], (err, result) => {
+  const sql = 'DELETE FROM booksgenres WHERE GenreID = ?;' +
+    'DELETE FROM genres WHERE GenreID = ?';
+  connection.query(sql, [req.params.id, req.params.id], (err, result) => {
     if (err) throw err;
-    if (result.length === 0) {
-      res.status(404).send({'id': id, 'result': 'Not found'});
+    if (result.length === 0 || result[0].affectedRows == 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
     } else {
       res.send(result);
     }

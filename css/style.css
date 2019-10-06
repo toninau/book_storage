@@ -83,21 +83,72 @@
 
 .formlist-container {
   margin: auto;
-  background-color: white;
+  background-color: #9172E8;
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
   border-radius: 0 30px;
   width: 95%;
   height: 95%;
+  border-bottom: 2px solid white;
   display: flex;
 }
 
 .formlist {
-  border-width: 5px;  
-  border-style: inset;
-  border-radius: 0 30px;
+  background-color: #9192E8;
   width: 95%;
   height: 95%;
   margin: auto;
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
+  border-bottom: 2px solid white;
+  display: flex;
+  flex-direction: column;
+}
+
+.formlist h1 {
+  padding: 2em;
+  text-align: center;
+  color: white;
+  margin: 0 30px;
+  border-bottom: 2px solid white;
+}
+
+.form-options {
+  padding: 1em;
+  margin: 0 30px;
+  border-bottom: 2px solid white;
+}
+
+.form-options label {
+  padding: 1em;
+}
+
+.dynamic-form {
+  padding: 2em;
+  margin: 0 30px;
+  border-bottom: 2px solid white;  
+}
+
+#dynamic-form-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#dynamic-form-2 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dynamic-form label {
+  margin: 1em;
+}
+
+#dynamic-result-2 {
+  height: 40%;
+  overflow-y: scroll;
+}
+
+table, th, td {
+  border: 1px solid black;
 }
 
 #read-page, #update-page, #delete-page {

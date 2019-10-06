@@ -27,8 +27,8 @@ exports.storage_update_put = function(req, res) {
   connection.query(sql, [req.body.Storage, req.body.Location,
     req.params.id], (err, result) => {
     if (err) throw err;
-    if (result.length === 0) {
-      res.status(404).send({'id': id, 'result': 'Not found'});
+    if (result.length === 0 || result[0].affectedRows == 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
     } else {
       res.send(result);
     }
@@ -36,11 +36,12 @@ exports.storage_update_put = function(req, res) {
 };
 
 exports.storage_delete = function(req, res) {
-  const sql = 'DELETE FROM storages WHERE StorageID = ?';
-  connection.query(sql, [req.params.id], (err, result) => {
+  const sql = 'DELETE FROM books WHERE StorageID = ?;' +
+    'DELETE FROM storages WHERE StorageID = ?';
+  connection.query(sql, [req.params.id, req.params.id], (err, result) => {
     if (err) throw err;
-    if (result.length === 0) {
-      res.status(404).send({'id': id, 'result': 'Not found'});
+    if (result.length === 0 || result[0].affectedRows == 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
     } else {
       res.send(result);
     }

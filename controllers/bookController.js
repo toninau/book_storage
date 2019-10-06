@@ -2,7 +2,8 @@ const connection = require('../connection');
 
 const sqlSELECT = 'SELECT books.BookID, booksinfo.Title, ' +
   'booksinfo.PublicationYear, booksinfo.Author, booksinfo.ISBN, ' +
-  `group_concat(genres.Name) AS 'Genres', storages.Location, storages.Storage` +
+  `group_concat(genres.Name) AS 'Genres', storages.StorageID,` +
+  'storages.Location, storages.Storage' +
   ' FROM books ' +
   'INNER JOIN storages on storages.StorageID = books.StorageID ' +
   'INNER JOIN booksinfo on booksinfo.BookinfoID = books.BookinfoID ' +
@@ -92,12 +93,7 @@ exports.book_create_post = function(req, res) {
   const sqlbooksgenresINSERT = 'INSERT INTO booksgenres ' +
     '(GenreID, BookinfoID) VALUES (?, ?)';
   const sqlCheckExists = 'SELECT genres.GenreID, storages.StorageID ' +
-    'FROM books ' +
-    'INNER JOIN storages on storages.StorageID = books.StorageID ' +
-    'INNER JOIN booksinfo on booksinfo.BookinfoID = books.BookinfoID ' +
-    'INNER JOIN booksgenres on booksgenres.BookinfoID = books.BookinfoID ' +
-    'INNER JOIN genres on genres.GenreID = booksgenres.GenreID ' +
-    'GROUP BY genres.GenreID, storages.StorageID';
+    'FROM genres JOIN storages on 1=1';
   let id = -1;
   let genreIDFound = false;
   let storageIDFound = false;
@@ -157,8 +153,8 @@ exports.book_update_put = function(req, res) {
     req.body.PublicationYear, req.body.Author,
     req.body.ISBN, req.params.id], (err, result) => {
     if (err) throw err;
-    if (result.length === 0) {
-      res.status(404).send({'id': id, 'result': 'Not found'});
+    if (result.length === 0 || result.affectedRows == 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
     } else {
       res.send(result);
     }
@@ -170,8 +166,8 @@ exports.book_delete = function(req, res) {
   const sql = 'DELETE FROM books WHERE bookID = ?';
   connection.query(sql, [req.params.id], (err, result) => {
     if (err) throw err;
-    if (result.length === 0) {
-      res.status(404).send({'id': id, 'result': 'Not found'});
+    if (result.length === 0 || result.affectedRows == 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
     } else {
       res.send(result);
     }
