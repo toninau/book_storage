@@ -1,4 +1,5 @@
 const connection = require('../connection');
+const {validationResult} = require('express-validator');
 
 const sqlSELECT = 'SELECT books.BookID, booksinfo.Title, ' +
   'booksinfo.PublicationYear, booksinfo.Author, booksinfo.ISBN, ' +
@@ -98,51 +99,59 @@ exports.book_create_post = function(req, res) {
   let genreIDFound = false;
   let storageIDFound = false;
 
-  connection.query(sqlCheckExists, (err, result) => {
-    if (err) throw err;
-    for (let i = 0; i < result.length; i++) {
-      if (result[i].GenreID === req.body.GenreID) {
-        genreIDFound = true;
-      }
-      if (result[i].StorageID === req.body.StorageID) {
-        storageIDFound = true;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log('virheitä');
+    console.log(errors);
+    res.status(422).json({errors: errors.array()});
+  } else {
+    console.log('ei virheitä');
+    connection.query(sqlCheckExists, (err, result) => {
+      if (err) throw err;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].GenreID === req.body.GenreID) {
+          genreIDFound = true;
+        }
+        if (result[i].StorageID === req.body.StorageID) {
+          storageIDFound = true;
+        }
+        if (storageIDFound && genreIDFound) {
+          break;
+        }
       }
       if (storageIDFound && genreIDFound) {
-        break;
-      }
-    }
-    if (storageIDFound && genreIDFound) {
-      connection.query(sqlSELECT, [req.body.ISBN], (err, result) => {
-        if (err) throw err;
-        try {
-          id = result[0].BookinfoID;
-        } catch (err) {
-        }
-        if (id === -1) {
-          connection.query(sqlbookinfoINSERT, [req.body.Title,
-            req.body.PublicationYear, req.body.Author,
-            req.body.ISBN], (err, result) => {
-            if (err) throw err;
-            id = result.insertId;
-            connection.query(`${sqlbookINSERT};${sqlbooksgenresINSERT}`,
-                [id, req.body.StorageID,
-                  req.body.GenreID, id], (err, result) => {
+        connection.query(sqlSELECT, [req.body.ISBN], (err, result) => {
+          if (err) throw err;
+          try {
+            id = result[0].BookinfoID;
+          } catch (err) {
+          }
+          if (id === -1) {
+            connection.query(sqlbookinfoINSERT, [req.body.Title,
+              req.body.PublicationYear, req.body.Author,
+              req.body.ISBN], (err, result) => {
+              if (err) throw err;
+              id = result.insertId;
+              connection.query(`${sqlbookINSERT};${sqlbooksgenresINSERT}`,
+                  [id, req.body.StorageID,
+                    req.body.GenreID, id], (err, result) => {
+                    if (err) throw err;
+                    res.send(result);
+                  });
+            });
+          } else {
+            connection.query(sqlbookINSERT, [id, req.body.StorageID],
+                (err, result) => {
                   if (err) throw err;
                   res.send(result);
                 });
-          });
-        } else {
-          connection.query(sqlbookINSERT, [id, req.body.StorageID],
-              (err, result) => {
-                if (err) throw err;
-                res.send(result);
-              });
-        }
-      });
-    } else {
-      res.status(400).send({'result': 'Something is wrong with the body'});
-    }
-  });
+          }
+        });
+      } else {
+        res.status(400).send({'result': 'GenreID or StorageID wrong'});
+      }
+    });
+  }
 };
 
 // WORKS :), ADD VALIDATION
