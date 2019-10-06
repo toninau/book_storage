@@ -12,7 +12,6 @@ const sqlSELECT = 'SELECT books.BookID, booksinfo.Title, ' +
   'INNER JOIN genres on genres.GenreID = booksgenres.GenreID ';
 const sqlGROUP = 'GROUP BY books.BookID ';
 
-// WORKS :)
 exports.book_id_get = function(req, res) {
   const id = req.params.id;
   const sql = `${sqlSELECT} WHERE books.BookID = ? ${sqlGROUP}`;
@@ -26,7 +25,6 @@ exports.book_id_get = function(req, res) {
   });
 };
 
-// WORKS :)
 exports.book_advanced_get = function(req, res) {
   // URL query empty -> get all books
   const sqlParams = [];
@@ -84,7 +82,6 @@ exports.book_advanced_get = function(req, res) {
   }
 };
 
-// WORKS :), ADD VALIDATION
 exports.book_create_post = function(req, res) {
   const sqlSELECT = 'SELECT * FROM booksinfo WHERE ISBN = ?';
   const sqlbookinfoINSERT = 'INSERT INTO booksinfo ' +
@@ -101,11 +98,11 @@ exports.book_create_post = function(req, res) {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log('virheitä');
+    console.log('ERRORS');
     console.log(errors);
     res.status(422).json({errors: errors.array()});
   } else {
-    console.log('ei virheitä');
+    console.log('NO ERRORS');
     connection.query(sqlCheckExists, (err, result) => {
       if (err) throw err;
       for (let i = 0; i < result.length; i++) {
@@ -154,7 +151,7 @@ exports.book_create_post = function(req, res) {
   }
 };
 
-// WORKS :), ADD VALIDATION
+// ADD VALIDATION
 exports.book_update_put = function(req, res) {
   const sql = 'UPDATE booksinfo SET Title = ?, PublicationYear = ?, ' +
     'Author = ?, ISBN = ? WHERE BookinfoID = ?';
