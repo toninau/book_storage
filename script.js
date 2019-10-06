@@ -196,6 +196,8 @@ function processCreateForm(event) {
       alert('SUCCESS');
     } else if (xmlhttp.readyState == 4 && xmlhttp.status == 400) {
       alert('FAIL');
+    } else if (xmlhttp.readyState == 4 && xmlhttp.status == 422) {
+      alert('FAIL');
     }
   };
   const data = JSON.stringify(json);
