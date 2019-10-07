@@ -76,7 +76,7 @@ GET http://localhost:8081/api/v1/books
 
 http://localhost:8081/api/v1/books/(ID) <br>
 
-Retrieves all the books from the database with matching IDs. 
+Retrieves book from the database with matching ID. 
 
 ```
 Example:
@@ -100,7 +100,7 @@ yearMin <br>
 isbn <br>
 genre <br>
 
-Books found
+##### Books found
 
 ```
 [
