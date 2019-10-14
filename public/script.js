@@ -4,6 +4,8 @@ const dynamicForm2 = document.getElementById('dynamic-form-2');
 const dynamicForm3 = document.getElementById('dynamic-form-3');
 const dynamicForm4 = document.getElementById('dynamic-form-4');
 const dynamicResult = document.getElementById('dynamic-result-2');
+
+// two main elements (sidebar and rest of the view)
 const sidebar = document.getElementsByClassName('sidebar')[0];
 const main = document.getElementsByClassName('main')[0];
 

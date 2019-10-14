@@ -128,6 +128,9 @@ body {
 .form-options {
   padding: 2em;
   border-bottom: 2px solid white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .form-options input[type="radio"] {
@@ -136,11 +139,17 @@ body {
 
 .form-options label {
   cursor: pointer;
+  border: 2px solid white;
+  border-radius: 2em;
+  padding: 1em;
+  margin: 1em;
 }
 
 .form-options input[type="radio"]:checked+label {
   color: white;
   text-decoration: underline;
+  background-color: #a5a6e8;
+  transition: 0.25s;
 }
 
 .dynamic-form {
@@ -149,6 +158,50 @@ body {
   border-bottom: 2px solid white;
   padding: 2em;
   justify-content: space-evenly;
+}
+
+.dynamic-form button {
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 2em;
+  padding: 1em;
+  margin: 1em;
+  outline: none;
+  background: none;
+  color: white; 
+}
+
+.dynamic-form button:hover {
+  background-color: #a5a6e8;
+  transition: 0.25s;
+}
+
+.dynamic-form label  {
+  cursor: pointer;
+  border: 2px solid white;
+  border-radius: 2em;
+  padding: 1em;
+  margin: 1em;
+  background: none;
+  color: white; 
+}
+
+.dynamic-form input {
+  border: none;
+  border-radius: 2em;
+  margin: 5px;
+  padding: 0 5px;
+  outline: none;
+}
+
+.dynamic-form label:focus-within {
+  background-color: #a5a6e8;
+  transition: 0.25s;
+}
+
+.dynamic-form button:hover {
+  background-color: #a5a6e8;
+  transition: 0.25s;
 }
 
 #dynamic-result-2 {
