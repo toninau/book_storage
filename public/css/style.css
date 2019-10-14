@@ -18,6 +18,7 @@ body {
   border-right: 2px solid white;
   transition: 0.5s;
   position: fixed;
+  top: 0;
 }
 
 .sidebar.collapsed {
@@ -51,6 +52,7 @@ body {
 .list li:hover  {
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
   text-decoration: underline;
+  transition: 0.5s;
 }
 
 .logo {
@@ -85,10 +87,11 @@ body {
   margin-left: 0;
 }
 
+/* hide button */
 #hide {
   position: absolute;
   top: 0;
-  right: -45px;
+  right: -40px;
   border: none;
   border-right: 2px solid white;
   border-bottom: 2px solid white;
@@ -96,20 +99,20 @@ body {
   outline: none;
   background-color: #9172E8;
   color: white; 
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }
 
 #hide:hover {
   transition: 0.5s;
   background-color: #9192E8 ;
 }
-/* Ylhäällä oleviin ei kosketa */
 
+/* main form stuff */
 .formlist h1 {
   text-align: center;
   padding: 2em;
-  margin: 0 2em;
+  margin: 40px;
   border-bottom: 2px solid white;
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
   background-color: #9192E8;
@@ -118,7 +121,7 @@ body {
 
 .form-container {
   text-align: center;
-  margin: 2em;
+  margin: 40px;
   padding: 2em;
   border-bottom: 2px solid white;
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
@@ -143,10 +146,10 @@ body {
   border-radius: 2em;
   padding: 1em;
   margin: 1em;
+  color:white;
 }
 
 .form-options input[type="radio"]:checked+label {
-  color: white;
   text-decoration: underline;
   background-color: #a5a6e8;
   transition: 0.25s;
@@ -190,7 +193,7 @@ body {
   border: none;
   border-radius: 2em;
   margin: 5px;
-  padding: 0 5px;
+  padding: 2px 5px;
   outline: none;
 }
 
@@ -204,18 +207,39 @@ body {
   transition: 0.25s;
 }
 
+
+/* Dynamic result/table */
 #dynamic-result-2 {
   background-color: #9192E8;
   border-bottom: 2px solid white;
   padding: 2em;
-  margin: 2em;
+  margin: 40px;
   box-shadow: 0 7px 10px rgba(0, 0, 0, 0.25);
+  overflow-x: auto;
 }
 
-table, th, td {
-  border: 1px solid black;
+table {
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
+th {
+  color: white;
+  border-bottom: 2px solid white;
+  padding: 5px;
+}
+
+td {
+  padding: 5px 0;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Other */
 #read-page, #update-page, #delete-page {
   display: none;
 }

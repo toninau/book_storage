@@ -26,6 +26,7 @@ router.put('/books/:id(\\d+)', [
 router.delete('/books/:id(\\d+)', bookController.book_delete);
 
 // Genre routes
+router.get('/genres/:id(\\d+)', genreController.genre_id_get);
 router.get('/genres', genreController.genre_all_get);
 router.post('/genres', [
   check('Name').trim().escape().isLength({min: 1}).withMessage('name empty'),
@@ -36,6 +37,7 @@ router.put('/genres/:id(\\d+)', [
 router.delete('/genres/:id(\\d+)', genreController.genre_delete);
 
 // Storage routes
+router.get('/storages/:id(\\d+)', storageController.storage_id_get);
 router.get('/storages', storageController.storage_all_get);
 router.post('/storages', [
   check('Storage').trim().escape().isLength({min: 1}).withMessage('name empty'),

@@ -13,6 +13,18 @@ exports.storage_all_get = function(req, res) {
   });
 };
 
+exports.storage_id_get = function(req, res) {
+  const sql = 'SELECT * FROM storages WHERE StorageID = ?';
+  connection.query(sql, [req.params.id], (err, result) => {
+    if (err) throw err;
+    if (result.length === 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
+    } else {
+      res.send(result);
+    }
+  });
+};
+
 exports.storage_create_post = function(req, res) {
   const sql = 'INSERT INTO storages (Storage, Location) VALUES (?, ?)';
   const errors = validationResult(req);

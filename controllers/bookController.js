@@ -105,6 +105,7 @@ exports.book_create_post = function(req, res) {
     console.log('NO ERRORS');
     connection.query(sqlCheckExists, (err, result) => {
       if (err) throw err;
+      // checks that values exist
       for (let i = 0; i < result.length; i++) {
         if (result[i].GenreID === req.body.GenreID) {
           genreIDFound = true;

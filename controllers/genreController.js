@@ -13,6 +13,18 @@ exports.genre_all_get = function(req, res) {
   });
 };
 
+exports.genre_id_get = function(req, res) {
+  const sql = 'SELECT * FROM genres WHERE GenreID = ?';
+  connection.query(sql, [req.params.id], (err, result) => {
+    if (err) throw err;
+    if (result.length === 0) {
+      res.status(404).send({'id': req.params.id, 'result': 'Not found'});
+    } else {
+      res.send(result);
+    }
+  });
+};
+
 exports.genre_create_post = function(req, res) {
   const sql = 'INSERT INTO genres (genres.Name) VALUES (?)';
   const errors = validationResult(req);
