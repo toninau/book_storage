@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/api/v1', apiRouterV1);
 app.use('/', indexRouter);
+app.use(express.static('public'));
 
 app.listen(8081, () => {
   console.log('Server started, port 8081');

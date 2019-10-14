@@ -4,6 +4,8 @@ const dynamicForm2 = document.getElementById('dynamic-form-2');
 const dynamicForm3 = document.getElementById('dynamic-form-3');
 const dynamicForm4 = document.getElementById('dynamic-form-4');
 const dynamicResult = document.getElementById('dynamic-result-2');
+const sidebar = document.getElementsByClassName('sidebar')[0];
+const main = document.getElementsByClassName('main')[0];
 
 // View change
 document.querySelector('ul > li:nth-child(1)').onclick = function() {
@@ -35,7 +37,7 @@ document.querySelector('ul > li:nth-child(4)').onclick = function() {
 };
 
 // Create forms
-document.querySelector('#createForm-options>label:nth-child(1)'
+document.querySelector('#createForm-options>#radio1'
 ).onclick = function() {
   dynamicForm1.innerHTML = '';
   dynamicForm1.innerHTML = '<label>Title<input type="text"' +
@@ -53,7 +55,7 @@ document.querySelector('#createForm-options>label:nth-child(1)'
     '<button type="submit" class="btn">Submit</button>';
 };
 
-document.querySelector('#createForm-options>label:nth-child(2)'
+document.querySelector('#createForm-options>#radio2'
 ).onclick = function() {
   dynamicForm1.innerHTML = '';
   dynamicForm1.innerHTML = '<label>Genre name<input type="text"' +
@@ -61,7 +63,7 @@ document.querySelector('#createForm-options>label:nth-child(2)'
     '<button type="submit" class="btn">Submit</button>';
 };
 
-document.querySelector('#createForm-options>label:nth-child(3)'
+document.querySelector('#createForm-options>#radio3'
 ).onclick = function() {
   dynamicForm1.innerHTML = '';
   dynamicForm1.innerHTML = '<label>Storage name<input type="text"' +
@@ -72,7 +74,7 @@ document.querySelector('#createForm-options>label:nth-child(3)'
 };
 
 // Read forms
-document.querySelector('#readForm-options>label:nth-child(1)'
+document.querySelector('#readForm-options>#radio4'
 ).onclick = function() {
   dynamicForm2.innerHTML = '';
   dynamicForm2.innerHTML = '<label>Title<input type="text"' +
@@ -92,14 +94,14 @@ document.querySelector('#readForm-options>label:nth-child(1)'
   '<button type="submit" class="btn">Submit</button>';
 };
 
-document.querySelector('#readForm-options>label:nth-child(2)'
+document.querySelector('#readForm-options>#radio5'
 ).onclick = function() {
   dynamicForm2.innerHTML = '';
   dynamicForm2.innerHTML = '<button type="submit" class="btn">' +
     'Get all genres</button>';
 };
 
-document.querySelector('#readForm-options>label:nth-child(3)'
+document.querySelector('#readForm-options>#radio6'
 ).onclick = function() {
   dynamicForm2.innerHTML = '';
   dynamicForm2.innerHTML = '<button type="submit" class="btn">' +
@@ -107,7 +109,7 @@ document.querySelector('#readForm-options>label:nth-child(3)'
 };
 
 // Update forms
-document.querySelector('#updateForm-options>label:nth-child(1)'
+document.querySelector('#updateForm-options>#radio7'
 ).onclick = function() {
   dynamicForm3.innerHTML = '';
   dynamicForm3.innerHTML = '<label>Bookinfo ID<input type="text"' +
@@ -123,7 +125,7 @@ document.querySelector('#updateForm-options>label:nth-child(1)'
   '<button type="submit" class="btn">Submit</button>';
 };
 
-document.querySelector('#updateForm-options>label:nth-child(2)'
+document.querySelector('#updateForm-options>#radio8'
 ).onclick = function() {
   dynamicForm3.innerHTML = '';
   dynamicForm3.innerHTML = '<label>Genre ID<input type="text"' +
@@ -133,7 +135,7 @@ document.querySelector('#updateForm-options>label:nth-child(2)'
   '<button type="submit" class="btn">Submit</button>';
 };
 
-document.querySelector('#updateForm-options>label:nth-child(3)'
+document.querySelector('#updateForm-options>#radio9'
 ).onclick = function() {
   dynamicForm3.innerHTML = '';
   dynamicForm3.innerHTML = '<label>Storage ID<input type="text"' +
@@ -146,7 +148,7 @@ document.querySelector('#updateForm-options>label:nth-child(3)'
 };
 
 // Delete forms
-document.querySelector('#deleteForm-options>label:nth-child(1)'
+document.querySelector('#deleteForm-options>#radio10'
 ).onclick = function() {
   dynamicForm4.innerHTML = '';
   dynamicForm4.innerHTML = '<label>Book ID<input type="text"' +
@@ -154,7 +156,7 @@ document.querySelector('#deleteForm-options>label:nth-child(1)'
     '<button type="submit" class="btn">Submit</button>';
 };
 
-document.querySelector('#deleteForm-options>label:nth-child(2)'
+document.querySelector('#deleteForm-options>#radio11'
 ).onclick = function() {
   dynamicForm4.innerHTML = '';
   dynamicForm4.innerHTML = '<label>Genre ID<input type="text"' +
@@ -162,12 +164,18 @@ document.querySelector('#deleteForm-options>label:nth-child(2)'
     '<button type="submit" class="btn">Submit</button>';
 };
 
-document.querySelector('#deleteForm-options>label:nth-child(3)'
+document.querySelector('#deleteForm-options>#radio12'
 ).onclick = function() {
   dynamicForm4.innerHTML = '';
   dynamicForm4.innerHTML = '<label>Storage ID<input type="text"' +
     'name="id" pattern="[0-9]*" required></label>' +
     '<button type="submit" class="btn">Submit</button>';
+};
+
+// hide sidebar
+document.querySelector('#hide').onclick = function() {
+  main.classList.toggle('collapsed');
+  sidebar.classList.toggle('collapsed');
 };
 
 /**
@@ -177,7 +185,7 @@ document.querySelector('#deleteForm-options>label:nth-child(3)'
 function processCreateForm(event) {
   const json = {};
   const item = document.querySelectorAll(
-      '#createForm-options > label > input[name=item]:checked')[0].value;
+      '#createForm-options > input[name=item]:checked')[0].value;
   console.log(item);
   const elements = document.querySelectorAll(
       '#dynamic-form-1 > label > input[type=text]');
@@ -215,7 +223,7 @@ function processReadForm(event) {
 
   const json = {};
   const item = document.querySelectorAll(
-      '#readForm-options > label > input[name=item]:checked')[0].value;
+      '#readForm-options > input[name=item]:checked')[0].value;
   console.log(item);
   const elements = document.querySelectorAll(
       '#dynamic-form-2 > label > input[type=text]');
@@ -274,7 +282,7 @@ function processReadForm(event) {
 function processUpdateForm(event) {
   const json = {};
   const item = document.querySelectorAll(
-      '#updateForm-options > label > input[name=item]:checked')[0].value;
+      '#updateForm-options > input[name=item]:checked')[0].value;
   console.log(item);
   const elements = document.querySelectorAll(
       '#dynamic-form-3 > label > input[type=text]');
@@ -312,7 +320,7 @@ function processUpdateForm(event) {
  */
 function processDeleteForm(event) {
   const item = document.querySelectorAll(
-      '#deleteForm-options > label > input[name=item]:checked')[0].value;
+      '#deleteForm-options > input[name=item]:checked')[0].value;
   console.log(item);
   const elements = document.querySelectorAll(
       '#dynamic-form-4 > label > input[type=text]');

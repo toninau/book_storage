@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Book Storage</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="logo">
+        <img alt="book_storage" class="resize" src="img/books.png">
+        <h1>Book Storage</h1>
+      </div>
+      <ul class="list">
+        <li><a>Create</a></li>
+        <li><a>Read</a></li>
+        <li><a>Update</a></li>
+        <li><a>Delete</a></li>
+      </ul>
+      <button id="hide"><i class="material-icons">menu</i></button>
+    </div>
+    <div class="main">
+      <div class="formlist" id="create-page">
+        <h1>CREATE</h1>
+        <form id="createForm" class="form-container">
+          <div id=createForm-options class="form-options">
+            <input id="radio1" type="radio" name="item" value="books">
+            <label for="radio1">Book</label>
+            <input id="radio2" type="radio" name="item" value="genres">
+            <label for="radio2">Genre</label>
+            <input id="radio3" type="radio" name="item" value="storages">
+            <label for="radio3">Storage</label>
+          </div>
+          <div class="dynamic-form" id="dynamic-form-1"></div>
+        </form>
+      </div>
+      <div class="formlist" id="read-page">
+        <h1>READ</h1>
+        <form id="readForm" class="form-container">
+          <div id="readForm-options" class="form-options">
+              <input id="radio4" type="radio" name="item" value="books">
+              <label for="radio4">Book</label>
+              <input id="radio5" type="radio" name="item" value="genres">
+              <label for="radio5">Genre</label>
+              <input id="radio6" type="radio" name="item" value="storages">
+              <label for="radio6">Storage</label>
+          </div>
+          <div class="dynamic-form" id="dynamic-form-2"></div>
+        </form>
+        <div id="dynamic-result-2"></div>
+      </div>
+      <div class="formlist" id="update-page">
+        <h1>UPDATE</h1>
+        <form id="updateForm" class="form-container">
+          <div id=updateForm-options class="form-options">
+              <input id="radio7" type="radio" name="item" value="books">
+              <label for="radio7">Book</label>
+              <input id="radio8" type="radio" name="item" value="genres">
+              <label for="radio8">Genre</label>
+              <input id="radio9" type="radio" name="item" value="storages">
+              <label for="radio9">Storage</label>
+          </div>
+          <div class="dynamic-form" id="dynamic-form-3"></div>
+        </form>
+      </div>
+      <div class="formlist" id="delete-page">
+        <h1>DELETE</h1>
+        <form id="deleteForm" class="form-container">
+          <div id=deleteForm-options class="form-options">
+              <input id="radio10" type="radio" name="item" value="books">
+              <label for="radio10">Book</label>
+              <input id="radio11" type="radio" name="item" value="genres">
+              <label for="radio11">Genre</label>
+              <input id="radio12" type="radio" name="item" value="storages">
+              <label for="radio12">Storage</label>
+          </div>
+          <div class="dynamic-form" id="dynamic-form-4"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
