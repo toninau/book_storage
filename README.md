@@ -1,10 +1,15 @@
 # book storage
 
+## General
+
+Frontend made with HTML5, CSS3, JavaScript. Backend made with Node.js and Express.js. Contains REST API, data validation/sanitization and MySQL database.
+
 ## After cloning
 npm install <br>
 import books_db.sql to your MySQL database <br>
 make necessary changes to connection.js <br>
-npm start / node server.js
+npm start / node server.js <br>
+http://localhost:8081
 
 ## REST v1
 
@@ -115,13 +120,88 @@ genre <br>
         "Location": "Test Location 1",
         "Storage": "Test Storage 1"
     },
+    ...
+]
+```
+#### Genre
+
+http://localhost:8081/api/v1/genres <br>
+
+Retrieves all the genres from the database. Returns an array if genres were found.
+
+```
+Example:
+GET http://localhost:8081/api/v1/genres
+```
+
+http://localhost:8081/api/v1/genres/(ID) <br>
+
+Retrieves genre from the database with matching ID. 
+
+```
+Example:
+GET http://localhost:8081/api/v1/genres/2
+```
+
+##### Genres found
+
+```
+[
+    {
+        "GenreID": 4,
+        "Title": "Fantasy"
+    },
+    {
+    	"GenreID": 5,
+        "Title": "Fiction"
+    },
+    ...
+]
+```
+
+#### Storages
+
+http://localhost:8081/api/v1/storages <br>
+
+Retrieves all the storages from the database. Returns an array if storages were found.
+
+```
+Example:
+GET http://localhost:8081/api/v1/storages
+```
+
+http://localhost:8081/api/v1/storages/(ID) <br>
+
+Retrieves storage from the database with matching ID. 
+
+```
+Example:
+GET http://localhost:8081/api/v1/storages/2
+```
+
+##### Storages found
+
+```
+[
+    {
+        "StorageID": 1,
+        "Storage": "Test Storage 1",
+	"Location": "Test Location 1"
+    },
+    {
+        "StorageID": 2,
+        "Storage": "Test Storage 2",
+	"Location": "Test Location 2"
+    },
+    ...
+]
 ```
 
 ### Update
 
 #### Book
 
-http://localhost:8081/api/v1/books(ID) <br>
+http://localhost:8081/api/v1/books/(ID) <br>
 Updates book
 
 ```
@@ -138,7 +218,7 @@ Body
 ```
 #### Genre
 
-http://localhost:8081/api/v1/genres(ID) <br>
+http://localhost:8081/api/v1/genres/(ID) <br>
 Updates genre
 
 ```
@@ -153,7 +233,7 @@ Body
 
 #### Storage
 
-http://localhost:8081/api/v1/storages(ID) <br>
+http://localhost:8081/api/v1/storages/(ID) <br>
 Updates storage
 
 ```
