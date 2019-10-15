@@ -5,11 +5,11 @@
 Frontend made with HTML5, CSS3, JavaScript. Backend made with Node.js and Express.js. Contains REST API, data validation/sanitization and MySQL database.
 
 ## After cloning
-npm install <br>
-import books_db.sql to your MySQL database <br>
-make necessary changes to connection.js <br>
-npm start / node server.js <br>
-http://localhost:8081
+1. npm install
+2. import books_db.sql to your MySQL database 
+3. make necessary changes to connection.js 
+4. npm start / node server.js
+5. http://localhost:8081
 
 ## REST v1
 
@@ -62,7 +62,7 @@ Content-Type: application/json
 Body
 {
 	"Storage": "Test Storage Name",
-	"Location": "Test Location",
+	"Location": "Test Location"
 }
 ```
 
@@ -97,13 +97,13 @@ Example:
 GET http://localhost:8081/api/v1/books?title=harry&yearMax=2005
 ```
 ##### FILTER OPTIONS:
-author <br>
-title <br>
-storageID <br>
-yearMax <br>
-yearMin <br>
-isbn <br>
-genre <br>
+* author 
+* title 
+* storageID 
+* yearMax 
+* yearMin 
+* isbn 
+* genre 
 
 ##### Books found
 
